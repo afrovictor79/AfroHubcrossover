@@ -1,0 +1,44 @@
+# AfroHubcrossover
+Script de Arise crossover 
+-- Afro Hub Crossover Strategy
+-- Este script é uma estratégia baseada em cruzamento de médias móveis para jogos ou análises financeiras.
+
+-- Configurações inicias
+local shortWindow = 50 -- Número de períodos para a média móvel curta
+local longWindow = 200 -- Número de períodos para a média móvel longa
+
+-- Função para calcular a média móvel
+local function calculateMovingAverage(data, period)
+    local sum = 0
+    for i = 1, period do
+        sum = sum + data[#data - i + 1] -- Soma os últimos 'period' valores
+    end
+    return sum / period -- Calcula a média
+end
+
+-- Função principal para o crossover
+local function afroHubCrossoverStrategy(data)
+    if #data < longWindow then
+        return "Dados insuficientes para análise" -- Verificar se há dados suficientes
+    end
+
+    local shortMA = calculateMovingAverage(data, shortWindow)
+    local longMA = calculateMovingAverage(data, longWindow)
+
+    if shortMA > longMA then
+        return "Comprar" -- Sinal de compra
+    elseif shortMA < longMA then
+        return "Vender" -- Sinal de venda
+    else
+        return "Manter" -- Sinal neutro
+    end
+end
+
+-- Teste do script com dados simulados
+local simulatedData = {}
+for i = 1, 300 do
+    table.insert(simulatedData, math.random(90, 110)) -- Insere valores aleatórios para simulação
+end
+
+local signal = afroHubCrossoverStrategy(simulatedData)
+print("Sinal gerado pela estratégia Afro Hub: " .. signal)
